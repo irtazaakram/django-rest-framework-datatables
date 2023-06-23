@@ -8,18 +8,11 @@ on:
 
 jobs:
   build:
-    name: Python ${{ matrix.python-version }}, django ${{ matrix.django-version }}
+    name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
-        django-version: [32, 40, 41, 42]
-        exclude:
-          - python-version: "3.11"
-            django-version: 32
-          - python-version: "3.11"
-            django-version: 40
-
     steps:
       - uses: actions/checkout@v2
       - name: setup python
@@ -29,6 +22,4 @@ jobs:
       - name: Install tox
         run: pip install tox
       - name: Run Tests
-        env:
-          TOXENV: django${{ matrix.django-version }}
         run: tox
